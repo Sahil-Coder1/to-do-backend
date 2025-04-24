@@ -91,7 +91,7 @@ router.post(
         sameSite: "Strict",
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
       });
-      const { password, ...safeUser } = user._doc;
+      const { password: pwd, ...safeUser } = user.toObject();
       res.json({ token, user: safeUser });
     } catch (err) {
       console.error(err.message);
