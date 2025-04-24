@@ -10,10 +10,11 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: ["http://localhost:5173", "https://to-do-frontend-ecru.vercel.app"],
     credentials: true,
   })
 );
+
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/todos", require("./routes/todos"));
 
