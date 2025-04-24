@@ -3,6 +3,7 @@ const router = express.Router();
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const { check, validationResult } = require("express-validator");
+const isProd = process.env.NODE_ENV === "production";
 
 router.post(
   "/register",
@@ -38,12 +39,15 @@ router.post(
         { expiresIn: "5h" },
         (err, token) => {
           if (err) throw err;
+
+          const isProd = process.env.NODE_ENV === "production";
           res.cookie("token", token, {
             httpOnly: true,
-            secure: true,
-            sameSite: "None",
+            secure: isProd,
+            sameSite: isProd ? "None" : "Lax",
             maxAge: 7 * 24 * 60 * 60 * 1000,
           });
+
           res.json({ token });
         }
       );
@@ -87,8 +91,8 @@ router.post(
       });
       res.cookie("token", token, {
         httpOnly: true,
-        secure: true,
-        sameSite: "None",
+        secure: isProd,
+        sameSite: isProd ? "None" : "Lax",
         maxAge: 7 * 24 * 60 * 60 * 1000,
       });
       const { password: pwd, ...safeUser } = user.toObject();
