@@ -4,7 +4,7 @@ const auth = require("../middleware/auth");
 const Todo = require("../models/Todo");
 const { check, validationResult } = require("express-validator");
 
-router.post("/:id", auth, async (req, res) => {
+router.get("/:id", auth, async (req, res) => {
   const { id } = req.params;
 
   try {
